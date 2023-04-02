@@ -5,6 +5,7 @@ const App = () => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const processedRef = useRef<HTMLCanvasElement>(null);
+  const asciiRef = useRef<HTMLDivElement>(null);
 
   const onFrame = useCallback(() => {
     const videoEl = videoRef.current;
@@ -21,7 +22,9 @@ const App = () => {
     videoRef.current.requestVideoFrameCallback(onFrame);
 
     const processedEl = processedRef.current;
+    const asciiEl = asciiRef.current;
     if (!processedEl) return;
+    if (!asciiEl) return;
 
     const pCtx = processedEl.getContext("2d", {
       willReadFrequently: true,
@@ -31,6 +34,7 @@ const App = () => {
     // [r, g, b, a, r1, g1, b1, a1, ...]
     const frame = ctx.getImageData(0, 0, canvasEl.width, canvasEl.height);
     const frameData = frame.data;
+    let text = "";
     for (let i = 0; i < frameData.length; i += 4) {
       let r = frameData[i];
       let g = frameData[i + 1];
@@ -43,7 +47,14 @@ const App = () => {
 
       // Then convert to either black or white depending on luminance value
       frameData[i] = frameData[i + 1] = frameData[i + 2] = l > 140 ? 255 : 0;
+
+      text += l > 140 ? "0" : "-";
+      if ((i / 4) % frame.width === frame.width - 1) {
+        text += "\n";
+      }
     }
+    asciiEl.innerHTML = text;
+
     pCtx.putImageData(frame, 0, 0);
   }, []);
   useEffect(() => {
@@ -57,21 +68,26 @@ const App = () => {
   }, [onFrame]);
 
   return (
-    <div id="container">
-      <video
-        ref={videoRef}
-        id="video"
-        src="/video.mp4"
-        autoPlay
-        muted
-        controls
-        loop
-      />
-      <div id="previews">
-        <canvas ref={canvasRef} id="c1"></canvas>
-        <canvas ref={processedRef} id="c2"></canvas>
+    <>
+      <div ref={asciiRef} id="ascii"></div>
+      <div id="container">
+        <div>
+          <video
+            ref={videoRef}
+            id="video"
+            src="/video.mp4"
+            autoPlay
+            muted
+            controls
+            loop
+          />
+        </div>
+        <div id="previews">
+          <canvas ref={canvasRef} id="c1" />
+          <canvas ref={processedRef} id="c2" />
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 

@@ -6,8 +6,10 @@ body,
 
 body {
   margin: 0;
+  font-family: "Courier New", Courier, monospace;
+  line-height: 1;
+  background-color: black;
   color: white;
-  font-family: Helvetica, Tahoma, sans-serif;
 }
 
 #root {
