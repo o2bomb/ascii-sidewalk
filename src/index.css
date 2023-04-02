@@ -10,7 +10,7 @@ body {
   line-height: 1;
   background-color: black;
   color: white;
-  font-size: 10px;
+  font-size: 16px;
   letter-spacing: 2px;
 }
 
@@ -36,9 +36,8 @@ body {
   top: 0;
   left: 0;
   visibility: hidden;
-  width: 100%;
-  max-width: 1600px;
-  margin: 0 auto;
+  height: 1px;
+  width: 1px;
 }
 
 #video {
