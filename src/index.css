@@ -10,12 +10,18 @@ body {
   line-height: 1;
   background-color: black;
   color: white;
+  font-size: 10px;
+  letter-spacing: 2px;
 }
 
 #root {
   position: relative;
   display: flex;
   flex-direction: column;
+}
+
+#ascii {
+  overflow: hidden;
 }
 
 #container {

@@ -48,7 +48,7 @@ const App = () => {
       // Then convert to either black or white depending on luminance value
       frameData[i] = frameData[i + 1] = frameData[i + 2] = l > 140 ? 255 : 0;
 
-      text += l > 140 ? "0" : "-";
+      text += l > 140 ? "0" : "⠀";
       if ((i / 4) % frame.width === frame.width - 1) {
         text += "\n";
       }
@@ -69,7 +69,9 @@ const App = () => {
 
   return (
     <>
-      <div ref={asciiRef} id="ascii"></div>
+      <div id="container">
+        <div ref={asciiRef} id="ascii"></div>
+      </div>
       <div id="container">
         <div>
           <video
