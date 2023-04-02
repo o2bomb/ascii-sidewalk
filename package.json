@@ -9,16 +9,13 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@react-three/fiber": "^8.11.5",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "rvfc-polyfill": "^1.0.6",
-    "three": "^0.150.0"
+    "rvfc-polyfill": "^1.0.6"
   },
   "devDependencies": {
     "@types/react": "^18.0.27",
     "@types/react-dom": "^18.0.10",
-    "@types/three": "^0.149.0",
     "@vitejs/plugin-react": "^3.1.0",
     "eslint": "^8.35.0",
     "eslint-config-react-app": "^7.0.1",
