@@ -72,7 +72,7 @@ const App = () => {
   return (
     <>
       <div id="container">
-        <div ref={asciiRef} id="ascii"></div>
+        <div ref={asciiRef} id="ascii" />
       </div>
       <div id="hidden">
         <div>
