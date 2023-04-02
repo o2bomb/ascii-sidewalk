@@ -1,0 +1,36 @@
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  color: white;
+  font-family: Helvetica, Tahoma, sans-serif;
+}
+
+#root {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+#container {
+  width: 100%;
+  max-width: 1600px;
+  margin: 0 auto;
+}
+
+#video {
+  width: 100%;
+}
+
+#previews {
+  display: flex;
+  width: 100%;
+}
+
+#previews canvas {
+  width: 100%;
+}
