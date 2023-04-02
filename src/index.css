@@ -20,11 +20,22 @@ body {
   flex-direction: column;
 }
 
-#ascii {
+#container {
   overflow: hidden;
+  width: 100%;
+  display: flex;
 }
 
-#container {
+#ascii {
+  margin: 0 auto;
+  text-align: center;
+}
+
+#hidden {
+  position: absolute;
+  top: 0;
+  left: 0;
+  visibility: hidden;
   width: 100%;
   max-width: 1600px;
   margin: 0 auto;
