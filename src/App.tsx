@@ -1,9 +1,13 @@
-import { useCallback, useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import "rvfc-polyfill";
 
 const FONT_SIZE = 9;
 
+const VIDEO_URLS = ["/video.mp4", "/video2.mp4", "/video3.mp4", "video4.mp4"];
+
 const App = () => {
+  const [videoIndex, setVideoIndex] = useState(0);
+
   const videoRef = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const asciiRef = useRef<HTMLCanvasElement>(null);
@@ -91,14 +95,20 @@ const App = () => {
   return (
     <>
       <div id="container">
-        <canvas ref={asciiRef} id="ascii" />
+        <canvas
+          ref={asciiRef}
+          id="ascii"
+          onClick={() =>
+            setVideoIndex((prev) => (prev + 1) % VIDEO_URLS.length)
+          }
+        />
       </div>
       <div id="hidden">
         <div>
           <video
             ref={videoRef}
             id="video"
-            src="/video.mp4"
+            src={VIDEO_URLS[videoIndex]}
             autoPlay
             muted
             controls
