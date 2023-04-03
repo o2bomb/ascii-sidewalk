@@ -48,15 +48,17 @@ const App = () => {
       textIndex = (textIndex + 1) % TEXT2.value.length;
     }
 
-    if (!asciiRef.current) return;
-    const aCtx = asciiRef.current.getContext("2d");
+    const asciiEl = asciiRef.current;
+    if (!asciiEl) return;
+    const aCtx = asciiEl.getContext("2d");
     if (!aCtx) return;
     aCtx.fillStyle = "#ffffff";
     aCtx.font = `${FONT_SIZE}px monospace`;
-    aCtx.clearRect(0, 0, asciiRef.current.width, asciiRef.current.height);
+    aCtx.textAlign = "center";
+    aCtx.clearRect(0, 0, asciiEl.width, asciiEl.height);
     const lines = text.split("\n");
     for (let i = 0; i < lines.length; i++) {
-      aCtx.fillText(lines[i], 0, FONT_SIZE + i * FONT_SIZE);
+      aCtx.fillText(lines[i], asciiEl.width / 2, FONT_SIZE + i * FONT_SIZE);
     }
   }, []);
   useEffect(() => {
