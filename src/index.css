@@ -34,6 +34,8 @@ body {
   left: 50%;
   white-space: nowrap;
   transform: translate(-50%, -50%);
+  min-height: 100vh;
+  min-width: 100vw;
 }
 
 #hidden {
