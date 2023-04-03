@@ -13,6 +13,8 @@ const App = () => {
   const asciiRef = useRef<HTMLCanvasElement>(null);
 
   const onFrame = useCallback(() => {
+    requestAnimationFrame(onFrame);
+
     const videoEl = videoRef.current;
     const canvasEl = canvasRef.current;
     if (!videoEl) return;
@@ -23,8 +25,6 @@ const App = () => {
     });
     if (!ctx) return;
     ctx.drawImage(videoRef.current, 0, 0, canvasEl.width, canvasEl.height);
-
-    videoRef.current.requestVideoFrameCallback(onFrame);
 
     // [r, g, b, a, r1, g1, b1, a1, ...]
     const frame = ctx.getImageData(0, 0, canvasEl.width, canvasEl.height);
@@ -68,10 +68,10 @@ const App = () => {
   useEffect(() => {
     const videoEl = videoRef.current;
     if (!videoEl) return;
-    const frameId = videoEl.requestVideoFrameCallback(onFrame);
+    const frameId = requestAnimationFrame(onFrame);
 
     return () => {
-      videoEl.cancelVideoFrameCallback(frameId);
+      cancelAnimationFrame(frameId);
     };
   }, [onFrame]);
 
@@ -99,6 +99,9 @@ const App = () => {
           ref={asciiRef}
           id="ascii"
           onClick={() =>
+            setVideoIndex((prev) => (prev + 1) % VIDEO_URLS.length)
+          }
+          onTouchStart={() =>
             setVideoIndex((prev) => (prev + 1) % VIDEO_URLS.length)
           }
         />
