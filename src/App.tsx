@@ -47,7 +47,7 @@ const App = () => {
       const l = 0.2126 * r + 0.7152 * g + 0.0722 * b;
 
       // Then convert to either black or white depending on luminance value
-      frameData[i] = frameData[i + 1] = frameData[i + 2] = l > 140 ? 255 : 0;
+      frameData[i] = frameData[i + 1] = frameData[i + 2] = l > 160 ? 255 : 0;
 
       text += l > 140 ? TEXT2[textIndex] : "⠀";
       if ((i / 4) % frame.width === frame.width - 1) {
@@ -87,7 +87,7 @@ const App = () => {
           />
         </div>
         <div id="previews">
-          <canvas ref={canvasRef} id="c1" />
+          <canvas height={100} width={180} ref={canvasRef} id="c1" />
           <canvas ref={processedRef} id="c2" />
         </div>
       </div>
