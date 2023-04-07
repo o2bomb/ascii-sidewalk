@@ -1,21 +1,20 @@
-import { useCallback, useEffect, useRef, useState } from "react";
-import "rvfc-polyfill";
+import { Canvas } from "@react-three/fiber";
+import { useCallback, useEffect, useRef } from "react";
+import { Scene } from "./Scene";
 
 const FONT_SIZE = 9;
 
 const VIDEO_URLS = ["/video.mp4", "/video2.mp4", "/video3.mp4", "video4.mp4"];
 
 const App = () => {
-  const [videoIndex, setVideoIndex] = useState(0);
-
-  const videoRef = useRef<HTMLVideoElement>(null);
+  const threeRef = useRef<HTMLCanvasElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const asciiRef = useRef<HTMLCanvasElement>(null);
 
   const onFrame = useCallback(() => {
     requestAnimationFrame(onFrame);
 
-    const videoEl = videoRef.current;
+    const videoEl = threeRef.current;
     const canvasEl = canvasRef.current;
     if (!videoEl) return;
     if (!canvasEl) return;
@@ -24,7 +23,8 @@ const App = () => {
       willReadFrequently: true,
     });
     if (!ctx) return;
-    ctx.drawImage(videoRef.current, 0, 0, canvasEl.width, canvasEl.height);
+    ctx.clearRect(0, 0, canvasEl.width, canvasEl.height);
+    ctx.drawImage(videoEl, 0, 0, canvasEl.width, canvasEl.height);
 
     // [r, g, b, a, r1, g1, b1, a1, ...]
     const frame = ctx.getImageData(0, 0, canvasEl.width, canvasEl.height);
@@ -66,8 +66,6 @@ const App = () => {
     }
   }, []);
   useEffect(() => {
-    const videoEl = videoRef.current;
-    if (!videoEl) return;
     const frameId = requestAnimationFrame(onFrame);
 
     return () => {
@@ -92,47 +90,29 @@ const App = () => {
     };
   }, []);
 
-  useEffect(() => {
-    const handleContextMenu = (e: MouseEvent) => {
-      e.preventDefault();
-    };
-
-    document.addEventListener("contextmenu", handleContextMenu);
-    return () => {
-      document.removeEventListener("contextmenu", handleContextMenu);
-    };
-  }, []);
-
   return (
     <>
       <div id="container">
-        <canvas
-          ref={asciiRef}
-          id="ascii"
-          onClick={() =>
-            setVideoIndex((prev) => (prev + 1) % VIDEO_URLS.length)
-          }
-          onContextMenu={(e) => {
-            if (e.type !== "contextmenu") return;
-            setVideoIndex((prev) => (prev - 1) % VIDEO_URLS.length);
+        <canvas ref={asciiRef} id="ascii" />
+        <Canvas
+          ref={threeRef}
+          gl={{
+            preserveDrawingBuffer: true,
           }}
-          onTouchEnd={() =>
-            setVideoIndex((prev) => (prev + 1) % VIDEO_URLS.length)
-          }
-        />
+          style={{
+            zIndex: -1,
+            position: "absolute",
+            top: 0,
+            left: 0,
+            visibility: "hidden",
+          }}
+          linear
+          flat
+        >
+          <Scene />
+        </Canvas>
       </div>
       <div id="hidden">
-        <div>
-          <video
-            ref={videoRef}
-            id="video"
-            src={VIDEO_URLS[videoIndex]}
-            autoPlay
-            muted
-            controls
-            loop
-          />
-        </div>
         <div id="previews">
           <canvas height={150} width={270} ref={canvasRef} id="c1" />
         </div>
