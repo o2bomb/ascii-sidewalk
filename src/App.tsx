@@ -92,6 +92,17 @@ const App = () => {
     };
   }, []);
 
+  useEffect(() => {
+    const handleContextMenu = (e: MouseEvent) => {
+      e.preventDefault();
+    };
+
+    document.addEventListener("contextmenu", handleContextMenu);
+    return () => {
+      document.removeEventListener("contextmenu", handleContextMenu);
+    };
+  }, []);
+
   return (
     <>
       <div id="container">
@@ -101,7 +112,11 @@ const App = () => {
           onClick={() =>
             setVideoIndex((prev) => (prev + 1) % VIDEO_URLS.length)
           }
-          onTouchStart={() =>
+          onContextMenu={(e) => {
+            if (e.type !== "contextmenu") return;
+            setVideoIndex((prev) => (prev - 1) % VIDEO_URLS.length);
+          }}
+          onTouchEnd={() =>
             setVideoIndex((prev) => (prev + 1) % VIDEO_URLS.length)
           }
         />
